@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.css">
+    <style>
+        #friend_list > li > img, #message_list > li > img {
+            width: 30px;
+            height: 30px;
+        }
+
+        #top_nav li img {
+            width: 25px;
+            height: 25px;
+            margin-left: 20px;
+        }
+
+        #top_nav .active {
+            display: none;
+        }
+    </style>
+</head>
+<body style="background-color:#efefef;">
+<nav class="navbar navbar-inverse">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="javascript:void(0)"> Web聊天室 </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    <ul id="top_nav" class="nav navbar-nav navbar-right">
+                        <li id="user_info" class="active">
+                            <span id="from_id" class="active"></span>
+                            <a href="javascript:void (0)">
+
+                                <span></span>
+                                <img src="" alt="" class="img-circle">
+                            </a>
+                        </li>
+                        <li id="login_li">
+                            <a href="javascript:void (0)" data-toggle="modal" data-target="#myModal">登录</a>
+                            <!-- 登录（Modal） -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">
+                                                请登录
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="form-group">
+                                                <label for="username">账号:</label>
+                                                <input type="text" class="form-control" id="username"
+                                                       placeholder="用戶名">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="password">密码:</label>
+                                                <input type="password" class="form-control"
+                                                       id="password" placeholder="密碼">
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                            </button>
+                                            <button type="button" class="btn btn-primary" id="login">
+                                                登录
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void (0)" data-toggle="modal" data-target="#RegModal">注册</a>
+                            <!-- 注册（Modal） -->
+                            <div class="modal fade" id="RegModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title">
+                                                注册用户
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="form-group">
+                                                <label for="reg_username">账号:</label>
+                                                <input type="text" class="form-control" id="reg_username"
+                                                       placeholder="用戶名">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="reg_password">密码:</label>
+                                                <input type="password" class="form-control"
+                                                       id="reg_password" placeholder="密碼">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="reg_nick">昵称:</label>
+                                                <input type="text" class="form-control"
+                                                       id="reg_nick" placeholder="昵称">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="reg_avatar">头像</label>
+                                                <input type="file" id="reg_avatar">
+                                                <p class="help-block">选择你的注册头像最好是正方形的</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                            </button>
+                                            <button type="button" class="btn btn-primary" id="reg">
+                                                注册
+                                            </button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal -->
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="col-lg-9">
+            <div class="panel panel-info" style="height: 430px; ">
+                <div class="panel-heading" style="height: 50px;">
+                    <h3 class="panel-title pull-left"><strong>聊天窗口</strong></h3>
+                    <span class="pull-right">
+                    <span id="to_user" style="display: none"></span>
+                    <span id="to_nick"></span>
+                    <strong> : 聊天对象</strong>
+                    <button class="btn btn-info btn-group-sm" style="margin-left: 10px"
+                            id="btn_multi_chat">群聊
+                    </button>
+                    </span>
+                </div>
+                <div class="panel-body" style="height: 377px;overflow: auto;">
+                    <ul class="list-group" id="message_list">
+                        {#                        <li class="list-group-item">#}
+                        {#                            <img src="/static/Avatar/tit.png" alt="" class="img-circle">#}
+                        {#                            <strong class="form_user">章子怡 :</strong>#}
+                        {#                            <span class="msg">你好</span>#}
+                        {#                        </li>#}
+                        {#                        <li class="list-group-item" style="text-align: right">#}
+                        {##}
+                        {#                            <span class="msg">你好啊</span>#}
+                        {#                            <strong class="form_user">: 张飞</strong>#}
+                        {#                            <img src="/static/Avatar/tit.png" alt="" class="img-circle">#}
+                        {#                        </li>#}
+                        {#                        <li class="list-group-item" style="text-align: right">#}
+                        {#                            <span class="msg"><button class="btn btn-success"><span#}
+                        {#                                    class="glyphicon glyphicon-volume-up">...</span></button></span>#}
+                        {#                            <strong class="form_user">: 张飞</strong>#}
+                        {#                            <img src="/static/Avatar/tit.png" alt="" class="img-circle">#}
+                        {#                        </li>#}
+                        {#                        <li class="list-group-item" style="text-align: right">#}
+                        {#                            <span class="msg"><img src="/static/Avatar/tit.png" alt=""></span>#}
+                        {#                            <strong class="form_user">: 张飞</strong>#}
+                        {#                            <img src="/static/Avatar/tit.png" alt="" class="img-circle">#}
+                        {#                        </li>#}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 pull-right">
+            <div class="panel panel-danger" style="height: 620px;">
+                <div class="panel-heading">
+                    <span class="panel-title"><strong>好友列表</strong></span>
+                    <span style="font-size: 12px" class="pull-right">
+
+                    在线人数:(<strong id="count">11</strong>)含自己
+                    </span>
+                </div>
+                <div class="panel-body" style="height: 558px;overflow: auto;">
+
+                    <ul class="list-group" id="friend_list">
+
+                        <li class="list-group-item">
+                            <img src="/static/Avatar/zhangfei.jpg" alt="" class="img-circle">
+                            <strong class="form_user">张紫益</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-primary" style="height: 170px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="user_name"><strong>控制台</strong></h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="panel panel-default text-center" style="height: 100px">
+
+                                <div class="form-group">
+                                    <label for="chat_img" style="margin-top: 4px">请选择您要发送的图片文件</label>
+                                    <input type="file" id="chat_img">
+                                    <button type="submit" class="btn btn-success pull-right" style="margin-top: 10px"
+                                            id="send_img">发送图片
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+
+                            <div class="panel panel-default" style="height: 100px">
+
+
+                                <div class="text-center">
+                                    <audio autoplay controls id="player" class=""></audio>
+                                </div>
+                                <p style="margin-top: 10px">
+                                    <button class="btn btn-group-lg btn-info" style="margin:0 19px"
+                                            id="start_record">
+                                        开始录音
+                                    </button>
+                                    <button class="btn btn-group-lg btn-success" style="margin:0 19px"
+                                            id="stop_record">
+                                        发送语音消息
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="panel panel-default text-center" style="height: 100px">
+                                <label for="message">文字消息</label>
+                                <input id="message" type="text" class="form-control" placeholder="请输入您要发送的文字消息">
+                                <button class="btn btn-success pull-right" type="button" id="send_msg"
+                                        style="margin-top: 5px">发送
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script src="/static/js/Recorder.js"></script>
+<script src="/static/js/recordJS.js"></script>
+<script src="/static/js/settings.js"></script>
+<script src="/static/bootstrap-3.3.7/js/bootstrap.js"></script>
+<script src="/static/js/user.js"></script>
+<script src="/static/js/recv.js"></script>
+
+
+<script type="text/javascript">
+
+</script>
+</html>
