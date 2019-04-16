@@ -10,7 +10,7 @@ user = Blueprint('user', __name__)
 
 @user.route('/zf_reg', methods=['POST'])
 def zf_reg():
-    user_info = request.form.to_dict()
+   user_info = request.form.to_dict()
 
     # 判断用户是否存在
     username = user_info.get('username')
@@ -77,3 +77,10 @@ def auto_login():
     RES['data'] = user_info
 
     return jsonify(RES)
+
+
+def func1():
+    return "第一次修改"
+ 
+
+
