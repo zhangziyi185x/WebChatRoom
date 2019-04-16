@@ -82,5 +82,6 @@ def auto_login():
 def func1():
     return "第一次修改"
  
-
+def func2():
+    return "第二次修改测试"
 
